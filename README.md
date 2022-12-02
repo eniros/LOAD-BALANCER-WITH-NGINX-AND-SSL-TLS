@@ -23,7 +23,7 @@ To test that nginx has been install, I browsed the public IP of the EC2 instance
 
 Edit the Nginx config file by running the command:
 
-sudo vi /etc/nginx/nginx.conf
+```sudo vi /etc/nginx/nginx.conf```
 
 Insert the configuration script into the http section of the config file
 <img width="563" alt="Screenshot 2022-12-02 at 12 27 12" src="https://user-images.githubusercontent.com/61475969/205293234-e85b729f-a0e5-4287-ac15-a59e45e748d0.png">
@@ -59,34 +59,33 @@ Choose Associate.
 
 Update A record in your registrar to point to Nginx LB using Elastic IP address
 
-Configure Nginx to recognize the new domain name. This was done by Updating the /etc/nginx/nginx.conf file with
-
-server_name www.<your-domain-name.com>
+Configure Nginx to recognize the new domain name. This was done by Updating the /etc/nginx/nginx.conf file with server_name www.<your-domain-name.com>
 instead of server_name www.domain.com
 
 Install certbot and request for an SSL/TLS certificate for the domain name. N.B: Make sure snapd is running on the server.
 
-sudo systemctl status snapd
+```sudo systemctl status snapd```
 
 <img width="573" alt="Screenshot 2022-12-02 at 12 50 46" src="https://user-images.githubusercontent.com/61475969/205296904-7b902e0e-0e46-4ff3-8547-d13eead53681.png">
 
 <img width="561" alt="Screenshot 2022-12-02 at 12 53 01" src="https://user-images.githubusercontent.com/61475969/205297311-ac84cf23-c559-4803-9553-23d0472332bc.png">
 
-sudo snap install --classic certbot
+```sudo snap install --classic certbot```
 
 <img width="561" alt="Screenshot 2022-12-02 at 12 54 10" src="https://user-images.githubusercontent.com/61475969/205297557-c6dba83b-7558-4607-8e93-6b349899f46d.png">
 
 Make a Request your certificate for the domain name.
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
-sudo certbot --nginx
+```sudo ln -s /snap/bin/certbot /usr/bin/certbot```
+```sudo certbot --nginx```
 Follow the instruction displayed
 
 Lets Encrypt renews every 90 days and you can renew your certificate manually by running the following command.
-sudo certbot renew --dry-run
+```sudo certbot renew --dry-run```
+
 We can also create a cron job to do this same thing at a stipulated time.
 
 Edit cron file
-crontab -e
+```crontab -e```
 Add the following line to the crontab file
-5 */12 * */2 *   root /usr/bin/certbot renew > /dev/null 2>&1
+```5 */12 * */2 *   root /usr/bin/certbot renew > /dev/null 2>&1```
 Save the crontab file
